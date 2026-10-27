@@ -1,0 +1,35 @@
+<idea-plugin>
+    <id>com.easyrequest.idea</id>
+    <name>Easy Request</name>
+    <vendor>Easy Request</vendor>
+    <description><![CDATA[
+        A project-local HTTP client for IntelliJ IDEA with preview and fixed request tabs.
+        Browse Java Spring Controllers in a separate, manually refreshed API tree with Swagger names.
+        Automatically persist Controller endpoints and incrementally refresh their catalog without overwriting saved parameters.
+        Save request changes directly to the catalog and use stars to bookmark the same records in folders.
+        Keep removed source endpoints and their settings, marked as missing from source.
+        View read-only parameter comments from Swagger annotations and Java field documentation.
+        Organize saved requests into folders,
+        switch URL prefixes, share headers, and open Java Spring MVC endpoints directly
+        from the editor with generated request examples.
+    ]]></description>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="com.easyrequest.persistence.RequestStore"/>
+        <toolWindow id="Easy Request" anchor="right" icon="/icons/request.svg"
+                    factoryClass="com.easyrequest.ui.RequestToolWindowFactory"/>
+        <codeInsight.lineMarkerProvider language="JAVA"
+                    implementationClass="com.easyrequest.controller.ControllerLineMarkerProvider"/>
+    </extensions>
+    <actions>
+        <action id="EasyRequest.OpenEndpoint" class="com.easyrequest.controller.OpenEndpointAction"
+                text="Open in Easy Request" description="Open this Spring MVC endpoint in Easy Request">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="EasyRequest.CopyRelativeUrl" class="com.easyrequest.controller.CopyRelativeUrlAction"
+                text="Copy API Relative URL" description="Copy endpoint path including the Spring Boot context path">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
